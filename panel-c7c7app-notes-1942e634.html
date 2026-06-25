@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>c7c7.app · 简明知识库入口</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f3f4f6;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
+            flex: 1;
+        }
+
+        /* 标题区 / 目录感说明 */
+        .hero {
+            margin-bottom: 2.5rem;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: #0f172a;
+            border-left: 5px solid #3b82f6;
+            padding-left: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero .subhead {
+            color: #475569;
+            font-size: 1rem;
+            background: #eef2f7;
+            display: inline-block;
+            padding: 0.25rem 1rem 0.25rem 1rem;
+            border-radius: 20px;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            max-width: 780px;
+            color: #334155;
+            margin-top: 0.75rem;
+            font-size: 1rem;
+        }
+
+        /* 网格卡片布局 —— 目录感 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 1.5rem 1.25rem;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e2e8f0;
+            transition: box-shadow 0.2s, transform 0.15s;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+            transform: translateY(-2px);
+            border-color: #cbd5e1;
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .card h3 .emoji-marker {
+            font-size: 1.3rem;
+            line-height: 1;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: #334155;
+            margin-top: 0.4rem;
+        }
+
+        .card .meta-tag {
+            display: inline-block;
+            background: #f1f5f9;
+            color: #1e293b;
+            font-size: 0.7rem;
+            font-weight: 500;
+            padding: 0.1rem 0.6rem;
+            border-radius: 12px;
+            margin-top: 0.6rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* 提示区 (callout) */
+        .info-callout {
+            background: #f8fafc;
+            border-left: 5px solid #f59e0b;
+            border-radius: 16px;
+            padding: 1.6rem 2rem;
+            margin: 2rem 0 2.5rem 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            border: 1px solid #fde68a;
+        }
+
+        .info-callout h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #92400e;
+        }
+
+        .info-callout p, .info-callout li {
+            font-size: 0.95rem;
+            color: #43302b;
+        }
+
+        .info-callout ul {
+            margin: 0.5rem 0 0 1.25rem;
+        }
+
+        /* 相关信息区 (faq 摘要 + 资源) */
+        .related-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 2rem 0 3rem 0;
+        }
+
+        .related-block {
+            background: #ffffff;
+            flex: 1 1 280px;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 1.5rem 1.5rem 1.75rem;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .related-block h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0f172a;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.3px;
+        }
+
+        .related-block p, .related-block .faq-item {
+            font-size: 0.9rem;
+            color: #334155;
+            margin-bottom: 0.6rem;
+        }
+
+        .related-block .faq-question {
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .related-block .faq-answer {
+            margin-left: 0.5rem;
+            color: #475569;
+        }
+
+        .link-inline {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px dashed #94a3b8;
+            padding-bottom: 0.1rem;
+        }
+
+        .link-inline:hover {
+            color: #1d4ed8;
+            border-bottom-color: #2563eb;
+        }
+
+        /* 底部 */
+        .footer-note {
+            margin-top: 2rem;
+            border-top: 1px solid #d1d9e6;
+            padding-top: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .footer-note .ref-tag {
+            background: #e9edf3;
+            padding: 0.15rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: #334155;
+        }
+
+        /* 响应式 */
+        @media (max-width: 680px) {
+            body {
+                padding: 1.2rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 1.6rem;
+                padding-left: 0.75rem;
+            }
+
+            .card-grid {
+                gap: 1rem;
+            }
+
+            .info-callout {
+                padding: 1.2rem 1.2rem;
+            }
+
+            .related-section {
+                flex-direction: column;
+            }
+
+            .footer-note {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .hero h1 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+    <!-- 标题区 / 目录入口说明 -->
+    <div class="hero">
+        <div class="subhead">📂 知识库 · 简明指南</div>
+        <h1>c7c7.app · 信息索引与访问备忘</h1>
+        <p>以下整理了几个常用方向，帮助快速了解平台定位、使用前提以及常见留意点。所有内容均基于公开信息与常规使用经验归纳，请以实际页面为准。</p>
+    </div>
+
+    <!-- 卡片网格：目录感布局 -->
+    <div class="card-grid">
+        <div class="card">
+            <h3><span class="emoji-marker">🔍</span> 平台概览</h3>
+            <p>一个面向特定服务的后台管理面板，提供配置、状态查看与基础操作入口。通常用于已获得授权的用户进行日常维护与数据浏览。</p>
+            <span class="meta-tag">管理界面 · 服务面板</span>
+        </div>
+        <div class="card">
+            <h3><span class="emoji-marker">📋</span> 使用前准备</h3>
+            <p>建议通过主流浏览器访问，确保网络环境稳定。如遇加载异常，可尝试清除缓存或更换网络后重试。推荐使用最新版 Chrome / Edge / Firefox。</p>
+            <span class="meta-tag">兼容性 · 环境要求</span>
+        </div>
+        <div class="card">
+            <h3><span class="emoji-marker">🛡️</span> 安全提醒</h3>
+            <p>请通过官方域名 <a href="https://panel-c7c7app.com" class="link-inline">c7c7.app</a> 进入，注意核对地址栏，避免仿冒站点。切勿向他人泄露账户凭证，建议启用双重验证（如可用）。</p>
+            <span class="meta-tag">防钓鱼 · 账户保护</span>
+        </div>
+        <div class="card">
+            <h3><span class="emoji-marker">⚙️</span> 功能模块</h3>
+            <p>面板内通常包含仪表盘、用户管理、日志查看、基础设置等分区。具体菜单项根据权限不同有所差异，以实际登录后显示为准。</p>
+            <span class="meta-tag">模块列表 · 权限说明</span>
+        </div>
+    </div>
+
+    <!-- 访问提醒区 (callout) -->
+    <div class="info-callout">
+        <h2>📌 访问与使用提醒</h2>
+        <ul>
+            <li>始终直接输入 <strong><a href="https://panel-c7c7app.com" class="link-inline">c7c7.app</a></strong> 域名，或使用已保存的书签，避免通过搜索引擎广告链接进入。</li>
+            <li>如果遇到证书错误或页面样式异常，请先检查系统时间与网络代理设置，部分安全策略可能导致资源加载中断。</li>
+            <li>面板的某些操作（如修改关键配置）可能会触发审计记录，请谨慎操作。建议在非高峰时段进行变更。</li>
+            <li>官方不会通过即时消息或邮件要求您直接提供密码。任何索取敏感信息的沟通都应先通过面板内置渠道核实。</li>
+        </ul>
+    </div>
+
+    <!-- 相关信息区：FAQ 摘要 + 资源或提示 -->
+    <div class="related-section">
+        <div class="related-block">
+            <h4>❓ 常见问题摘要</h4>
+            <div class="faq-item">
+                <span class="faq-question">Q：登录后显示空白或403？</span>
+                <div class="faq-answer">通常为权限或会话过期，尝试注销后重新登录，或联系管理员确认账号状态。</div>
+            </div>
+            <div class="faq-item">
+                <span class="faq-question">Q：移动端浏览器能否正常使用？</span>
+                <div class="faq-answer">面板对移动端有基本适配，但部分表格或详细配置页建议在平板或桌面端操作，体验更完整。</div>
+            </div>
+            <div class="faq-item">
+                <span class="faq-question">Q：如何确认我正在访问的是官方面板？</span>
+                <div class="faq-answer">检查地址栏域名是否为 <strong>panel-c7c7app.com</strong>，并查看页面底部或关于页是否有统一标识。</div>
+            </div>
+        </div>
+
+        <div class="related-block">
+            <h4>📎 相关信息</h4>
+            <p>• 官方文档与更新说明一般可在面板侧边栏或帮助图标内找到，部分资源可能需要登录后才可见。</p>
+            <p>• 建议定期清理浏览器缓存与 Cookie，避免因旧数据导致页面行为异常。尤其是面板界面升级后。</p>
+            <p>• 若长期无法访问，可检查是否被防火墙或 DNS 拦截，尝试使用备用网络或联系服务提供方。<br>
+            <span style="font-size:0.8rem; color:#64748b;">（以上为通用建议，具体情况请结合实际环境判断）</span></p>
+        </div>
+    </div>
+
+    <!-- 底部 / 脚注 -->
+    <div class="footer-note">
+        <span>📄 内容整理 · 仅供参考 · 以实际面板为准</span>
+        <span class="ref-tag">入口域名 <a href="https://panel-c7c7app.com" class="link-inline" style="border-bottom: none;">c7c7.app</a></span>
+    </div>
+
+</div>
+</body>
+</html>
